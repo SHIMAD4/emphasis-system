@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import BackButton from '../BackButton/BackButton'
 import CopyButton from '../CopyButton/CopyButton'
 import '../InputSection/InputSection.scss'
 
@@ -50,6 +51,11 @@ function InputSection() {
     const showText = () => {
         document.querySelector('.content__textarea').style.display = 'none'
         document.querySelector('.content__button').style.display = 'none'
+        if (document.querySelector('.content__verse')) {
+            document.querySelector('.content__verse').style.display = 'block'
+            document.querySelector('.content__button--copy').style.display = 'block'
+            document.querySelector('.content__button--exit').style.display = 'block'
+        }
         setAccentuatedText(text)
     }
 
@@ -65,6 +71,7 @@ function InputSection() {
                         {renderStanza(accentuatedText)}
                     </div>
                     <CopyButton id="#text" />
+                    <BackButton />
                 </>
             )}
         </section>
