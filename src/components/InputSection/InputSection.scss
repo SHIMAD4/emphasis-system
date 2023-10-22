@@ -27,9 +27,19 @@
       }
     }
     &__verse {
+      display: block;
+      width: 30rem;
       font-size: 1.5rem;
       line-height: 3rem;
       margin-top: 5rem;
+      span {
+        .vowel {
+          cursor: pointer;
+          &:hover {
+            color: rgb(206, 0, 0);
+          }
+        }
+      }
     }
     ::-webkit-scrollbar {
       display: none;

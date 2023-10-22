@@ -3,20 +3,45 @@ import '../InputSection/InputSection.scss'
 
 function InputSection() {
     const [text, setText] = useState('')
+    const [accentuatedText, setAccentuatedText] = useState('')
 
-    const showText = (verse) => {
-        const section = document.querySelector('.content')
-        const textarea = section.querySelector('.content__textarea')
-        const button = section.querySelector('.content__button')
-        const p = document.createElement('p')
+    const isVowel = (letter) => {
+        const vowels = ['а', 'е', 'ё', 'и', 'о', 'у', 'ы', 'э', 'ю', 'я']
+        return vowels.includes(letter.toLowerCase())
+    }
 
-        textarea.style.display = 'none'
-        button.style.display = 'none'
+    const handleClick = (word, letterIndex) => {
+        const accentedWord = word
+            .split('')
+            .map((letter, index) => {
+                if (index === letterIndex && isVowel(letter)) {
+                    return letter + '\u0301'
+                }
+                return letter
+            })
+            .join('')
 
-        p.innerText = verse
-        p.classList.add('content__verse')
+        const newText = text.replace(word, accentedWord)
+        setText(newText)
+        setAccentuatedText(newText)
+    }
 
-        section.append(p)
+    const renderStanza = (stanza) => {
+        return stanza.split(' ').map((word, wordIndex) => (
+            <span key={wordIndex}>
+                {word.split('').map((letter, letterIndex) => (
+                    <span key={letterIndex} onClick={() => handleClick(word, letterIndex)}>
+                        {letter}
+                    </span>
+                ))}{' '}
+            </span>
+        ))
+    }
+
+    const showText = () => {
+        document.querySelector('.content__textarea').style.display = 'none'
+        document.querySelector('.content__button').style.display = 'none'
+        setAccentuatedText(text)
     }
 
     return (
@@ -28,9 +53,10 @@ function InputSection() {
                 cols="30"
                 rows="10"
                 onChange={(e) => setText(e.target.value)}></textarea>
-            <button className="content__button" onClick={() => showText(text)}>
+            <button className="content__button" onClick={() => showText()}>
                 accentuate
             </button>
+            {accentuatedText && <div className="content__verse">{renderStanza(accentuatedText)}</div>}
         </section>
     )
 }
