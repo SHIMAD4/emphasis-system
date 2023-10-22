@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import CopyButton from '../CopyButton/CopyButton'
 import '../InputSection/InputSection.scss'
 
 function InputSection() {
@@ -54,17 +55,18 @@ function InputSection() {
 
     return (
         <section className="content wrapper">
-            <textarea
-                className="content__textarea"
-                name=""
-                id=""
-                cols="30"
-                rows="10"
-                onChange={(e) => setText(e.target.value)}></textarea>
+            <textarea className="content__textarea" onChange={(e) => setText(e.target.value)}></textarea>
             <button className="content__button" onClick={() => showText()}>
                 accentuate
             </button>
-            {accentuatedText && <div className="content__verse">{renderStanza(accentuatedText)}</div>}
+            {accentuatedText && (
+                <>
+                    <div className="content__verse" id="text">
+                        {renderStanza(accentuatedText)}
+                    </div>
+                    <CopyButton id="#text" />
+                </>
+            )}
         </section>
     )
 }
