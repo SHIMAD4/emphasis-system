@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import {useState} from 'react'
 import BackButton from '../BackButton/BackButton'
 import CopyButton from '../CopyButton/CopyButton'
 import '../InputSection/InputSection.scss'
@@ -6,21 +6,32 @@ import '../InputSection/InputSection.scss'
 function InputSection() {
     const [text, setText] = useState('')
     const [accentuatedText, setAccentuatedText] = useState('')
+    const wordStyles = {
+        backgroundColor: "#b32400",
+        opacity: .8,
+        borderRadius: '.2rem',
+        marginRight: '2px',
+        paddingLeft: '2px'
+    }
 
     const isVowel = (letter) => {
         const vowels = ['а', 'е', 'ё', 'и', 'о', 'у', 'ы', 'э', 'ю', 'я']
-        if (letter === undefined) {
-            return false
-        }
+        if (letter === undefined) return false
         return vowels.includes(letter.toLowerCase())
     }
 
+    // const removeSpecialChars = (str) => {
+    //     return str.replace(/[;,:"]/g, '');
+    // }
+
     const handleClick = (clickedWord, letterIndex) => {
-        const words = text.split(' ')
+        let words = text.split(/\s+/)
         words.forEach((word, wordIndex) => {
+            // word = removeSpecialChars(word)
+            // clickedWord = removeSpecialChars(word)
             if (word === clickedWord) {
                 if (isVowel(word[letterIndex]) && word[letterIndex + 1] !== '\u0301') {
-                    const accentedWord = word
+                    words[wordIndex] = word
                         .split('')
                         .map((letter, index) => {
                             if (index === letterIndex) {
@@ -29,29 +40,27 @@ function InputSection() {
                             return letter
                         })
                         .join('')
-                    words[wordIndex] = accentedWord
                 } else if (word[letterIndex + 1] === '\u0301') {
-                    const deaccentedWord =
-                        word.slice(0, letterIndex) + word[letterIndex] + word.slice(letterIndex + 2)
-                    words[wordIndex] = deaccentedWord
+                    words[wordIndex] = word.slice(0, letterIndex) + word[letterIndex] + word.slice(letterIndex + 2)
                 }
             }
         })
         const newText = words.join(' ')
         setText(newText)
         setAccentuatedText(newText)
+        renderStanza(text)
     }
 
     const renderStanza = (stanza) => {
-        return stanza.split(' ').map((word, wordIndex) => (
-            <span key={wordIndex}>
-                {word.split('').map((letter, letterIndex) => (
-                    <span key={letterIndex} onClick={() => handleClick(word, letterIndex)}>
-                        {letter}
-                    </span>
-                ))}{' '}
-            </span>
-        ))
+        return stanza.split(' ').map((word, wordIndex) => {
+            return (<span key={wordIndex} style={word.indexOf('\u0301') !== -1 ? {} : wordStyles}>
+                        {word.split('').map((letter, letterIndex) => (
+                            <span key={letterIndex} onClick={() => handleClick(word, letterIndex)}>
+                                {letter}
+                            </span>
+                        ))}{' '}
+                    </span>)
+        })
     }
 
     const showText = () => {
@@ -76,8 +85,8 @@ function InputSection() {
                     <div className="content__verse" id="text">
                         {renderStanza(accentuatedText)}
                     </div>
-                    <CopyButton id="#text" />
-                    <BackButton />
+                    <CopyButton id="#text"/>
+                    <BackButton/>
                 </>
             )}
         </section>

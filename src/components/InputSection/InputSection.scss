@@ -1,50 +1,58 @@
 .content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin-top: 2.5rem;
-    &__textarea {
-      width: 30rem;
-      height: 40rem;
-      border: 1px solid #e2e2e2;
-      border-radius: 1rem;
-      background-color: transparent;
-      resize: none;
-      color: #ffffff;
-      padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 2.5rem;
+
+  &__textarea {
+    width: 30rem;
+    height: 40rem;
+    border: 1px solid #e2e2e2;
+    border-radius: 1rem;
+    background-color: transparent;
+    resize: none;
+    color: #ffffff;
+    padding: 2rem;
+  }
+
+  &__button {
+    margin-top: 1.5rem;
+    border: 1px solid #e2e2e2;
+    border-radius: 1rem;
+    padding: 1rem 2rem;
+    cursor: pointer;
+    transition: all .3s ease-in-out;
+
+    &:hover {
+      background-color: #e2e2e2;
+      color: #000000;
     }
-    &__button {
-      margin-top: 1.5rem;
-      border: 1px solid #e2e2e2;
-      border-radius: 1rem;
-      padding: 1rem 2rem;
-      cursor: pointer;
-      transition: all .3s ease-in-out;
-      &:hover {
-        background-color: #e2e2e2;
-        color: #000000;
-      }
+  }
+
+  &__verse {
+    display: block;
+    width: 30rem;
+    font-size: 1.5rem;
+    line-height: 3rem;
+    margin-top: 2rem;
+
+    ::selection {
+      opacity: 0;
     }
-    &__verse {
-      display: block;
-      width: 30rem;
-      font-size: 1.5rem;
-      line-height: 3rem;
-      margin-top: 2rem;
-      ::selection {
-        opacity: 0;
-      }
+
+    span {
       span {
-        span {
-          cursor: pointer;
-          &:hover {
-            color: rgb(255, 124, 124);
-          }
+        cursor: pointer;
+
+        &:hover {
+          color: rgb(255, 124, 124);
         }
       }
     }
-    ::-webkit-scrollbar {
-      display: none;
-    }
   }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}
