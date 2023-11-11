@@ -20,18 +20,31 @@ function InputSection() {
         return vowels.includes(letter.toLowerCase())
     }
 
-    // const removeSpecialChars = (str) => {
-    //     return str.replace(/[;,:"]/g, '');
-    // }
+    const removeSpecialChars = (word) => {
+        if (word.length === 0) {
+            return word
+        }
+        let isFirstCharUpperCase = false
+
+        if (word[0] === word[0].toUpperCase()) {
+            isFirstCharUpperCase = true
+        }
+        const cleanedWord = word.replace(/[,:"]/g, '')
+
+        return isFirstCharUpperCase ? cleanedWord : cleanedWord.toLowerCase()
+    }
 
     const handleClick = (clickedWord, letterIndex) => {
         let words = text.split(/\s+/)
         words.forEach((word, wordIndex) => {
-            // word = removeSpecialChars(word)
-            // clickedWord = removeSpecialChars(word)
+            const originalCase = word
+
+            word = removeSpecialChars(word.toLowerCase())
+            clickedWord = removeSpecialChars(clickedWord.toLowerCase())
+
             if (word === clickedWord) {
                 if (isVowel(word[letterIndex]) && word[letterIndex + 1] !== '\u0301') {
-                    words[wordIndex] = word
+                    words[wordIndex] = originalCase
                         .split('')
                         .map((letter, index) => {
                             if (index === letterIndex) {
@@ -41,14 +54,15 @@ function InputSection() {
                         })
                         .join('')
                 } else if (word[letterIndex + 1] === '\u0301') {
-                    words[wordIndex] = word.slice(0, letterIndex) + word[letterIndex] + word.slice(letterIndex + 2)
+                    words[wordIndex] = originalCase.slice(0, letterIndex) + originalCase[letterIndex] + originalCase.slice(letterIndex + 2)
                 }
             }
         })
+
         const newText = words.join(' ')
         setText(newText)
         setAccentuatedText(newText)
-        renderStanza(text)
+        renderStanza(newText)
     }
 
     const renderStanza = (stanza) => {
