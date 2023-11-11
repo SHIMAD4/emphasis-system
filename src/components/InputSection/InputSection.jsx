@@ -60,21 +60,42 @@ function InputSection() {
         })
 
         const newText = words.join(' ')
-        setText(newText)
-        setAccentuatedText(newText)
-        renderStanza(newText)
+        setText(addAccentuation(newText))
+        setAccentuatedText(addAccentuation(newText))
+        renderStanza(addAccentuation(newText))
     }
 
     const renderStanza = (stanza) => {
         return stanza.split(' ').map((word, wordIndex) => {
-            return (<span key={wordIndex} style={word.indexOf('\u0301') !== -1 ? {} : wordStyles}>
-                        {word.split('').map((letter, letterIndex) => (
-                            <span key={letterIndex} onClick={() => handleClick(word, letterIndex)}>
-                                {letter}
-                            </span>
-                        ))}{' '}
-                    </span>)
+            const isAccented = word.indexOf('\u0301') !== -1
+            const isSingleLetter = /^[\u0400-\u04FF]$/i.test(word)
+            const shouldExcludeStyling = word.toLowerCase() === 'ль'
+
+            return (
+                <span key={wordIndex}
+                      style={shouldExcludeStyling ? {} : (isAccented || isSingleLetter) ? {} : wordStyles}>
+                {word.split('').map((letter, letterIndex) => (
+                    <span key={letterIndex} onClick={() => handleClick(word, letterIndex)}>
+                        {letter}
+                    </span>
+                ))}{' '}
+            </span>
+            )
         })
+    }
+
+    const addAccentuation = (text) => {
+        const words = text.split(/\s+/)
+
+        const accentuatedWords = words.map((word) => {
+            if (word.length === 1) return word
+
+            return word.toLowerCase() === 'или'
+                ? word.replace(/[аеёиоуыэюяАЕЁИОУЫЭЮЯ]/, (match) => match + '\u0301')
+                : word
+        })
+
+        return accentuatedWords.join(' ')
     }
 
     const showText = () => {
@@ -85,7 +106,15 @@ function InputSection() {
             document.querySelector('.content__button--copy').style.display = 'block'
             document.querySelector('.content__button--exit').style.display = 'block'
         }
-        setAccentuatedText(text)
+
+        const updatedText = text.split(/\s+/).map(word => {
+            if (word.toLowerCase() === 'или') {
+                return word.replace(/[аеёиоуыэюяАЕЁИОУЫЭЮЯ]/, match => match + '\u0301')
+            }
+            return word
+        }).join(' ')
+
+        setAccentuatedText(addAccentuation(updatedText))
     }
 
     return (
