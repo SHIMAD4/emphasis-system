@@ -1,8 +1,28 @@
-# React + Vite
+# Система постановки ударений
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Что сделано?
 
-Currently, two official plugins are available:
+* Полностью реализован сервис, который позволяет вставлять любой текст и выбирать в нем ударения. Текст доступен для копирования с выбранными ударениям
+* Невыбранные слова выделены автоматически красным цветом, когда пользователь ставит ударение, выделение сбрасывается
+* В повторяющиехся словах автоматически проставляются ударения, вне зависимости от регистра
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Для кого?
+* Филологов
+* Для языковедов
+* Лингвистов
+* И просто людей, изучающих нормы русского языка, в особенности ударения
+
+## Какие технологии?
+* JS + React
+* SCSS
+* Vite (сборщик)
+* GIT / GitHub
+* NPM
+
+# Способы улучшения
+1. UI-UX дизайн
+2. Оптимизация кода (TypeScript)
+3. Увеличение произоводительности
+
+## Preview
+![image](https://github.com/user-attachments/assets/f64e02da-1b26-4547-90de-9657b22a7741)
